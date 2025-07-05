@@ -87,6 +87,20 @@ npm run lint
 
 ---
 
+## 🚀 Live on Vercel
+
+This app is already deployed and live on Vercel! You can try the live demo here:
+
+[https://weather-app-ims5.vercel.app/](https://weather-app-ims5.vercel.app/)
+
+---
+
+## 📍 Location Access
+
+To use the "My Location" feature and get weather for your current location, please allow location access when prompted by your browser.
+
+---
+
 ## 📁 Folder Structure
 
 ```
