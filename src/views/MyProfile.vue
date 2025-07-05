@@ -10,12 +10,14 @@ import type { CountryInterface } from '@/interfaces'
 
 // store 
 import { useProfileStore } from '@/stores/profileStore'
+import { useSnackbarStore } from '@/stores/snackbarStore';
 
 // asset 
 import ChevronLeft from '@/assets/svg/chevron-left.svg'
 
 const router = useRouter()
 const { profileForm } = useProfileStore()
+const { useSnackbar } = useSnackbarStore()
 const isEdit = ref(false)
 
 const form = ref({ ...profileForm });
@@ -48,6 +50,7 @@ const submitForm = () => {
         profileForm.iso = form.value.iso
         profileForm.avatar = form.value.avatar
         isEdit.value = false
+        useSnackbar('Profile updated successfully', 'success')
     }
 }
 

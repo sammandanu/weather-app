@@ -8,7 +8,7 @@ export const useSnackbarStore = defineStore('snackbar', () => {
     open: false
   })
 
-  const useSnackbar = (message: string, type: string, timeout: number = 7000) => {
+  const useSnackbar = (message: string, type: string, timeout: number = 3000) => {
     snackbar.value.message = message
     snackbar.value.type = type
     snackbar.value.open = true
