@@ -61,7 +61,7 @@ defineExpose({
             @focus="() => { focus = true; emit('focus') }" @blur="() => { focus = false; emit('blur') }"
             @keyup.enter="emitSearch(searchInput)" v-model="searchInput" placeholder="Search for a city" />
         <!-- delete icon -->
-        <delete-icon v-show="searchInput" @click.stop="clearSearch()"
+        <delete-icon v-show="focus" @click.stop="clearSearch()"
             class="text-gray-600 w-5 h-5 flex-none  cursor-pointer" />
     </div>
 </template>

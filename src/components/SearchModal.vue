@@ -60,7 +60,7 @@ onMounted(() => {
 <template>
     <div class="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center justify-start pt-8 px-4">
         <div class="w-full max-w-md mx-auto">
-            <SearchInput ref="searchInputOverlayRef" v-model="searchInput" @search="searchCity()"
+            <SearchInput ref="searchInputOverlayRef" v-model="searchInput" @search="searchCity()" @blur="emit('onBlur')"
                 @clear="emit('onBlur')" />
         </div>
         <div class="w-full max-w-md mx-auto mt-4 bg-white rounded-xl ">
@@ -75,7 +75,7 @@ onMounted(() => {
                     })">
                     <span class="font-bold">{{ city.name }}</span><span class="text-gray-600">, {{ city.country }} {{
                         city.state
-                    }}
+                        }}
                     </span>
                 </li>
             </ul>
