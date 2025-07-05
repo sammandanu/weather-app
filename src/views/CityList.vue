@@ -11,6 +11,7 @@ import { getCountryName } from '@/utils/utils'
 // stores 
 import { useCitiesStore } from '@/stores/citiesStore';
 import { useSnackbarStore } from '@/stores/snackbarStore';
+import { useProfileStore } from '@/stores/profileStore';
 // api
 import DataApi from '@/api/data/dataApi';
 import GeoApi from '@/api/geo/geoApi';
@@ -26,44 +27,43 @@ import bgNight from '@/assets/images/bg-night.jpg'
 
 
 const router = useRouter()
-const { selectedCities } = useCitiesStore()
+const { selectedCities, addCity } = useCitiesStore()
 const { useSnackbar } = useSnackbarStore()
+const { userCoords, setUserCoord, removeUserCoord } = useProfileStore()
 
 const searchFocused = ref(false)
-const userCoords = ref<{ lat: number; lon: number } | null>(null)
 
-const localCityData = ref()
 const selectedCitiesData = ref<WeatherApiResponse[]>([])
 
 const getUserLocation = () => {
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        userCoords.value = {
+        setUserCoord({
           lat: position.coords.latitude,
           lon: position.coords.longitude,
-        }
+        })
         try {
           const geoApi = new GeoApi();
-          const result = await geoApi.reverseGeocode(userCoords.value.lat, userCoords.value.lon)
+          const result = await geoApi.reverseGeocode(position.coords.latitude, position.coords.longitude)
           if (result) {
-            await getWeather(result.name, true)
+            addCity(result.name)
+            await getWeather(result.name)
           }
         } catch {
           useSnackbar('Error fetching user location', 'error')
         }
       },
       () => {
-        userCoords.value = null
+        removeUserCoord()
       }
     )
   } else {
-    userCoords.value = null
+    removeUserCoord()
   }
 }
 
-const getWeather = async (city: string, local: boolean) => {
+const getWeather = async (city: string) => {
   try {
     const dataApi = new DataApi();
 
@@ -74,13 +74,7 @@ const getWeather = async (city: string, local: boolean) => {
         background: setDynamicBackground(response.dt, response.timezone),
         country: getCountryName(response.sys.country)
       }
-      if (local) {
-        localCityData.value = setResponse
-      }
-      else {
-        selectedCitiesData.value.push(setResponse)
-
-      }
+      selectedCitiesData.value.push(setResponse)
     }
   } catch (error) {
     useSnackbar('Error fetching city weather', 'error')
@@ -97,10 +91,13 @@ const handleSearchFocus = () => {
 }
 
 onMounted(async () => {
-  getUserLocation();
+  if (!userCoords) {
+    getUserLocation();
+  }
+
   if (selectedCities && selectedCities.length > 0) {
     try {
-      const promises = selectedCities.map(city => getWeather(city, false));
+      const promises = selectedCities.map(city => getWeather(city));
       await Promise.all(promises);
     } catch (error) {
       useSnackbar('Error fetching weather for cities', 'error')
@@ -135,10 +132,6 @@ onMounted(async () => {
 
         <!-- city list  -->
         <div class="">
-          <!-- user location  -->
-          <template v-if="localCityData">
-            <WeatherCard title="My Location" :data="localCityData" />
-          </template>
           <template v-if="selectedCitiesData">
             <WeatherCard :title="city.name" :data="city" v-for="city in selectedCitiesData" :key="city.id" />
           </template>

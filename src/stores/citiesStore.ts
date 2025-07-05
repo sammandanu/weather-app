@@ -10,7 +10,12 @@ export const useCitiesStore = defineStore('cities', () => {
     }
   }
   const removeCity = (cityID: string) => {
-    selectedCities.value = selectedCities.value.filter((city) => city !== cityID)
+    const findCity = selectedCities.value.find((city) => city === cityID)
+    if (!findCity) {
+      selectedCities.value.splice(0, 1)
+    } else {
+      selectedCities.value = selectedCities.value.filter((city) => city !== cityID)
+    }
   }
   return { selectedCities, addCity, removeCity }
 })
