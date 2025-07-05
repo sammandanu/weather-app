@@ -121,7 +121,7 @@ onMounted(() => {
             <div class="text-[14px] mb-2 ">{{ moment().format('dddd, DD MMMM YYYY') }}</div>
             <div class="flex items-center justify-center mb-2 w-">
                 <img :src="`https://openweathermap.org/img/wn/${currentCityWeather.weather[0].icon}@4x.png`"
-                    class="w-32" alt="weatherIcon">
+                    class="w-32" alt="weatherIcon" loading="lazy">
             </div>
             <div class="text-xl mb-1">
                 {{ currentCityWeather.main.temp.toString().substring(0, 2) }}º C

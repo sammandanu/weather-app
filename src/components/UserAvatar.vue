@@ -48,7 +48,7 @@ function onAvatarChange(event: Event) {
         <div class="w-32 h-32 rounded-full bg-blue-100  flex items-center justify-center relative ">
             <!-- image  -->
             <div class="w-full h-full flex items-center justify-center">
-                <img :src="!avatarUrl ? avatarImage : avatarUrl" alt="Avatar"
+                <img :src="!avatarUrl ? avatarImage : avatarUrl" loading="lazy" alt="Avatar"
                     class="object-cover w-full h-full rounded-full" />
             </div>
             <!-- input  -->

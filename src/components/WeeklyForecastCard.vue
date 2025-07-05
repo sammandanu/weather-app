@@ -16,8 +16,8 @@ const props = defineProps<{ data: ForecastListItem[] }>()
         <div class="flex gap-4 bg-blue-100 rounded-[12px] p-4  items-center justify-center text-white"
             v-for="forecast in data" :key="forecast.dt">
             <div class="flex items-center justify-center rounded-full w-14 bg-blue-300 flex-none">
-                <img :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}@4x.png`" class="w-full"
-                    alt="weatherIcon">
+                <img :src="`https://openweathermap.org/img/wn/${forecast.weather[0].icon}@4x.png`" loading="lazy"
+                    class="w-full" alt="weatherIcon">
             </div>
             <div class="flex-1 flex items-center justify-between">
                 <div class="">
