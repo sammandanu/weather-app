@@ -103,7 +103,7 @@ onMounted(async () => {
       const promises = selectedCities.map(city => getWeather(city, false));
       await Promise.all(promises);
     } catch (error) {
-      console.error('Error fetching weather for cities:', error);
+      useSnackbar('Error fetching weather for cities', 'error')
     }
   }
 });

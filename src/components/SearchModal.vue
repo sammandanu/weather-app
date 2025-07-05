@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+
+// stores 
+import { useSnackbarStore } from '@/stores/snackbarStore';
 // api
 import GeoApi from '@/api/geo/geoApi';
 // components 
@@ -17,6 +20,7 @@ type CityListType = {
 
 const emit = defineEmits(['onBlur'])
 const router = useRouter()
+const { useSnackbar } = useSnackbarStore()
 
 const searchInput = ref('')
 const searchInputOverlayRef = ref()
@@ -44,7 +48,7 @@ const searchCity = async () => {
             isEmpty.value = true
         }
     } catch (error) {
-        console.log("error", error);
+        useSnackbar('Error fetching city', 'error')
     }
 }
 
@@ -71,7 +75,7 @@ onMounted(() => {
                     })">
                     <span class="font-bold">{{ city.name }}</span><span class="text-gray-600">, {{ city.country }} {{
                         city.state
-                        }}
+                    }}
                     </span>
                 </li>
             </ul>
