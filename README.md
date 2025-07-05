@@ -48,9 +48,7 @@ npm install
 ### 4. Set Up Environment Variables
 
 1. Create a `.env` file in the project root:
-   ```sh
-   cp .env.example .env
-   ```
+
 2. Add your OpenWeatherMap API key and base URL:
    ```env
    VITE_OPENWEATHERMAP_API_KEY=your_api_key_here
