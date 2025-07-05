@@ -25,8 +25,12 @@ const router = useRouter()
 <template>
     <div :style="{ backgroundImage: `url(${data.background})` }" v-if="data"
         class="bg-cover  bg-no-repeat  h-[117px] rounded-2xl relative mb-4"
-        :class="data.background === bgDay ? 'bg-center' : 'bg-right-top'"
-        @click="router.push({ name: 'detail-city', query: data.coord })">
+        :class="data.background === bgDay ? 'bg-center' : 'bg-right-top'" @click="router.push({
+            name: 'detail-city', query: {
+                ...data.coord,
+                selected: true
+            }
+        })">
         <div class="absolute inset-0 rounded-2xl bg-black/30" :class="data.background === bgDay ? '' : ''">
         </div>
         <div class="absolute inset-0 text-white py-3 px-4 rounded-2xl flex flex-col justify-between">

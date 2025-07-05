@@ -22,11 +22,14 @@ import WeeklyForecastCard from '@/components/WeeklyForecastCard.vue';
 import ChevronLeft from '@/assets/svg/chevron-left.svg'
 import Plus from '@/assets/svg/plus.svg'
 import Refresh from '@/assets/svg/refresh.svg'
+import DeleteIcon from '@/assets/svg/trash.svg'
 
 const router = useRouter()
 const route = useRoute()
 
-const { addCity } = useCitiesStore()
+const isCitySelected = ref(false)
+
+const { addCity, removeCity } = useCitiesStore()
 const { useSnackbar } = useSnackbarStore()
 
 const currentCity = ref()
@@ -84,8 +87,6 @@ const getForecast = async () => {
     }
 }
 
-
-
 const reFetchWeather = async () => {
     await getForecast()
 }
@@ -95,10 +96,16 @@ const addCurrentCity = (cityName: string) => {
     useSnackbar('City added successfully!', 'success')
     router.push('/')
 }
+const removeCurrentCity = (cityName: string) => {
+    removeCity(cityName)
+    useSnackbar('City removed successfully!', 'success')
+    router.push('/')
+}
 
 onMounted(() => {
     coord.value.lat = route.query.lat!.toString()
     coord.value.lon = route.query.lon!.toString()
+    isCitySelected.value = !!route.query!.selected
     getForecast()
 })
 </script>
@@ -115,7 +122,8 @@ onMounted(() => {
                     {{ currentCity.name }}, {{ getCountryName(currentCity.country) }}
                 </div>
                 <div class="">
-                    <Plus class="w-5 h-5" @click="addCurrentCity(currentCity.name)" />
+                    <DeleteIcon v-if="isCitySelected" class="w-5 h-5" @click="removeCurrentCity(currentCity.name)" />
+                    <Plus v-else class="w-5 h-5" @click="addCurrentCity(currentCity.name)" />
                 </div>
             </div>
             <div class="text-[14px] mb-2 ">{{ moment().format('dddd, DD MMMM YYYY') }}</div>
