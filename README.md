@@ -51,7 +51,7 @@ npm install
 
 2. Add your OpenWeatherMap API key and base URL:
    ```env
-   VITE_OPENWEATHERMAP_API_KEY=your_api_key_here
+   VITE_OPEN_WEATHER_MAP_APP_ID=your_api_key_here
    VITE_OPEN_WEATHER_MAP_URL=https://api.openweathermap.org/
    ```
 
